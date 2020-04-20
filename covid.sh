@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+_covid_api='https://coronavirus-19-api.herokuapp.com/countries'
+
 # default display 25 results
 _covid_nhead=25
 
@@ -17,7 +19,7 @@ fi
 # head: only display top n lines
 # nl: line numbering (rank)
 
-curl -s https://coronavirus-19-api.herokuapp.com/countries | \
+curl -s "$_covid_api" | \
   jq -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv'  | \
   cut -d, -f4,7 | \
   sort -t, -k 2nr | \
